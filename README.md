@@ -4,43 +4,45 @@ Afero S3 is a Afero FS interface for Amazon s3
 
 ## Install
 
-	go get github.com/spf13/afero
-	go get github.com/qugit/aferos3
+```cli
+go get github.com/spf13/afero
+go get github.com/qugit/aferos3
+```
 
 ## How to use
 
-	AferoS3 works as a filesystem for afero to work on top of, all of the standard functions are accounted for.
-	Though it is worth noting that S3 does not have a directory file structure, so mkdir etc. have no effect.
+AferoS3 works as a filesystem for afero to work on top of, all of the standard functions are accounted for.
+Though it is worth noting that S3 does not have a directory file structure, so mkdir etc. have no effect.
 
 #### Initialising the library
 
-	AferoS3 uses the aws sdk for authentication and S3 access. Therefore in order to initialise the filesystem
-	you only need to pass through an aws-sdk session and the bucket name that you would like to act as the base
-	of the filesystem
+AferoS3 uses the aws sdk for authentication and S3 access. Therefore in order to initialise the filesystem
+you only need to pass through an aws-sdk session and the bucket name that you would like to act as the base
+of the filesystem
 
-	```go
-	// import afero, aferos3, and the aws sdk
-	import (
-		"github.com/aws/aws-sdk-go/aws"
-		"github.com/aws/aws-sdk-go/aws/session"
-		"github.com/spf13/afero"
-		"github.com/qugit/aferos3"
-	)
+```go
+// import afero, aferos3, and the aws sdk
+import (
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/spf13/afero"
+	"github.com/qugit/aferos3"
+)
 
-	// Generate your aws sdk session
-	sesh := session.Must(session.NewSession(&aws.Config{
-		Region: aws.String("us-east-1")
-	}))
+// Generate your aws sdk session
+sesh := session.Must(session.NewSession(&aws.Config{
+	Region: aws.String("us-east-1")
+}))
 
-	// Create the bucket file system, if the bucket doesn't exist this will create it
-	// This will also error out if you don't have read permissions on the bucket
-	afero.Fs, err := aferos3.GetBucketFs("bucket_name", sesh)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+// Create the bucket file system, if the bucket doesn't exist this will create it
+// This will also error out if you don't have read permissions on the bucket
+afero.Fs, err := aferos3.GetBucketFs("bucket_name", sesh)
+if err != nil {
+	fmt.Println(err)
+	return
+}
 
-	```
+```
 
 ## TODO
 
